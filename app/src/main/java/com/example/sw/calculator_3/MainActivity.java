@@ -1,5 +1,7 @@
 package com.example.sw.calculator_3;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +19,14 @@ public class MainActivity extends AppCompatActivity {
     public double pi = 3.14;
     public boolean equals_flag = true;// 是否在按下=之后输入，true为之前，false为之后
 
+    private SoundPool sp;//声明一个SoundPool
+    private int music;//定义一个整型用load（）；来设置suondID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sp= new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);//第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        music = sp.load(this, R.raw.btn, 1);
         FindId();
         setListener();
     }
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener setLis = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            sp.play(music, 1, 1, 0, 0, 1);
             String command = ((Button) v).getText().toString();
             String str = input.getText().toString();
             if (equals_flag == false && "0123456789.()sincos+-*/".indexOf(command) != -1) {
