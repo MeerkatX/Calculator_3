@@ -11,7 +11,8 @@
         android:id="@+id/input"
         android:text="Welcome!"
         android:gravity="right"
-        android:editable="false"/>
+        android:editable="false"
+        android:textSize="40sp"/>
     <TableRow
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
