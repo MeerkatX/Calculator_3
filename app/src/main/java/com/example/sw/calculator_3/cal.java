@@ -1,6 +1,5 @@
 package com.example.sw.calculator_3;
 
-import android.util.Log;
 import android.widget.EditText;
 
 import java.text.DecimalFormat;
@@ -19,9 +18,8 @@ public class cal {
     /*
      * 计算表达式 从左向右扫描，数字入number栈，运算符入operator栈
      * +-基本优先级为1，
-     * ×÷基本优先级为2，
-     * log ln sin cos tan n!基本优先级为3，
-     * √^基本优先级为4
+     * * /基本优先级为2，
+     * sin cos基本优先级为3，
      * 括号内层运算符比外层同级运算符优先级高4
      * 当前运算符优先级高于栈顶压栈，
      * 低于栈顶弹出一个运算符与两个数进行运算
@@ -32,11 +30,11 @@ public class cal {
         int weightPlus = 0, topOp = 0, topNum = 0, flag = 1, weightTemp = 0;
         // weightPlus为同一（）下的基本优先级，weightTemp临时记录优先级的变化
         // topOp为weight[]，operator[]的计数器；topNum为number[]的计数器
-        // flag为正负数的计数器，1为正数，-1为负数
+        // flag为正负数的计数器
         int weight[]; // 保存operator栈中运算符的优先级，以topOp计数
         double number[]; // 保存数字，以topNum计数
         char ch, ch_gai, operator[];// operator[]保存运算符，以topOp计数
-        String num;// 记录数字，str以+-×÷()sctgl!√^分段，+-×÷()sctgl!√^字符之间的字符串即为数字
+        String num;// 记录数字，str以+-*/()sc分段，+-*/()sc字符之间的字符串即为数字
         weight = new int[MAXLEN];
         number = new double[MAXLEN];
         operator = new char[MAXLEN];

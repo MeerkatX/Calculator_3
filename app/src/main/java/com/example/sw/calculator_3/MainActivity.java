@@ -165,9 +165,7 @@ public class MainActivity extends AppCompatActivity {
             else if (command.compareTo("=") == 0 && flag && right(str)
                     && equals_flag) {
                 str_i = 0;
-                // 表明不可以继续输入
                 flag = false;
-                // 表明输入=之后
                 equals_flag = false;
                 // 保存原来算式样子
                 str_old = str;
@@ -176,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 str = str.replaceAll("cos", "c");
                 // 重新输入标志设置true
                 flagre = true;
-                // 将-1x转换成-
+                // 将-1*转换成-
                 str_new = str.replaceAll("-", "-1*");
                 // 计算算式结果
                 new cal().process(str_new,input);
@@ -353,10 +351,6 @@ public class MainActivity extends AppCompatActivity {
             }
             if (error)
                 flag = false;
-        }
-
-        private void del() {
-
         }
 
         private void print(String str) {
