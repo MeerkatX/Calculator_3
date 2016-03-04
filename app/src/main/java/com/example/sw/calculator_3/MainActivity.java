@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button[] btn = new Button[10];
     private EditText input;
-    private Button div, mul, sub, sum, equ, sin, cos, del, lb, rb, c;
+    private Button div, mul, sub, sum, equ, sin, cos, del, lb, rb, c,point;
     public String str_old, str_new;
     public boolean flag = true;//控制输入true为正确，可以继续输入，false错误，输入锁定
     public boolean flagre = true;// 控制输入，true为重新输入，false为接着输入
@@ -48,12 +48,14 @@ public class MainActivity extends AppCompatActivity {
         rb = (Button) findViewById(R.id.r);
         c = (Button) findViewById(R.id.c);
         equ = (Button) findViewById(R.id.equ);
+        point=(Button)findViewById(R.id.point);
     }
 
     private void setListener() {
         for (int i = 0; i < 10; i++) {
             btn[i].setOnClickListener(setLis);
         }
+        point.setOnClickListener(setLis);
         div.setOnClickListener(setLis);
         mul.setOnClickListener(setLis);
         sub.setOnClickListener(setLis);
@@ -103,6 +105,83 @@ public class MainActivity extends AppCompatActivity {
                     && flag) { // 共25个按键
                 print(command);
             }
+            else if (command.compareTo("del") == 0 && equals_flag){
+                if (str.charAt(str.length() - 1) == 'n'|| str.charAt(str.length() - 1) == 's') {
+                    if (str.length() > 3)
+                        input.setText(str.substring(0, str.length() - 3));
+                    else if (str.length() == 3) {
+                        input.setText("0");
+                        flagre = true;
+                        str_i = 0;
+                    }
+                }
+                // 依次删除一个字符
+                else {
+                    // 若之前输入的字符串合法则删除一个字符
+                    if (right(str)) {
+                        if (str.length() > 1)
+                            input.setText(str.substring(0, str.length() - 1));
+                        else if (str.length() == 1) {
+                            input.setText("0");
+                            flagre = true;
+                            str_i = 0;
+                        }
+                    } else {
+                        input.setText("0");
+                        flagre = true;
+                        str_i = 0;
+                    }
+                }
+                if (input.getText().toString().compareTo("-") == 0
+                        || equals_flag == false) {
+                    input.setText("0");
+                    flagre = true;
+                    str_i = 0;
+                }
+                flag = true;
+                if (str_i > 0)
+                    str_i--;
+            }else if (command.compareTo("del") == 0 && equals_flag == false) {
+                // 将显示器内容设置为0
+                input.setText("0");
+                flagre = true;
+                str_i = 0;
+                flag = true;
+                // 如果输入的是清除键
+            } else if (command.compareTo("cl") == 0) {
+                // 将显示器内容设置为0
+                input.setText("0");
+                // 重新输入标志置为true
+                flagre = true;
+                // 缓存命令位数清0
+                str_i = 0;
+                // 表明可以继续输入
+                flag = true;
+                // 表明输入=之前
+                equals_flag = true;
+                // 如果输入的是”MC“，则将存储器内容清0
+            }
+            // 如果输入的是=号，并且输入合法
+            else if (command.compareTo("=") == 0 && flag && right(str)
+                    && equals_flag) {
+                str_i = 0;
+                // 表明不可以继续输入
+                flag = false;
+                // 表明输入=之后
+                equals_flag = false;
+                // 保存原来算式样子
+                str_old = str;
+                // 替换算式中的运算符，便于计算
+                str = str.replaceAll("sin", "s");
+                str = str.replaceAll("cos", "c");
+                // 重新输入标志设置true
+                flagre = true;
+                // 将-1x转换成-
+                str_new = str.replaceAll("-", "-1*");
+                // 计算算式结果
+                new cal().process(str_new,input);
+            }
+
             flag = true;
         }
 
